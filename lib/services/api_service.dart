@@ -1,17 +1,14 @@
 // lib/services/api_service.dart
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:shop/models/product_model.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
-import 'dart:io';
+import 'package:shop/models/product_model.dart';
 
 class ApiService {
   static const String _baseUrl = "https://admin.skaidev.com/api";
-  static String? _token;
-
-  // Méthode pour récupérer le token
-  static String? get token => _token;
+  static String? _token = '1321|ZCfaF11Dy9nP7UWgLztpYN7j76v75mjnXz0dlAEn'; // Ton token ici
 
   // Authentification
   static Future<bool> login(String email, String password) async {
@@ -78,7 +75,18 @@ class ApiService {
     );
   }
 
-  // Téléversement d'images
+  static Future<List<dynamic>> fetchImages({int page = 1}) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/image-gallery?page=$page'),
+      headers: _buildHeaders(),
+    );
+
+    return _handleResponse<List<dynamic>>(
+      response,
+      (data) => data['images'] ?? [],
+    );
+  }
+
   static Future<String> uploadImage(File imageFile) async {
     final mimeType = mime(imageFile.path) ?? 'application/octet-stream';
     final mimeData = mimeType.split('/');
@@ -103,7 +111,6 @@ class ApiService {
     );
   }
 
-  // Téléversement de vidéos
   static Future<String> uploadVideo(File videoFile) async {
     var request = http.MultipartRequest(
       'POST',
@@ -121,29 +128,6 @@ class ApiService {
     );
   }
 
-  // Helpers
-  static Map<String, String> _buildHeaders() {
-    return {
-      'Content-Type': 'application/json',
-      if (_token != null) 'Authorization': 'Bearer $_token',
-    };
-  }
-
-  static T _handleResponse<T>(
-    http.Response response,
-    T Function(dynamic) parser,
-  ) {
-    if (response.statusCode == 200) {
-      return parser(jsonDecode(response.body));
-    } else {
-      throw HttpException(
-        'Request failed with status: ${response.statusCode}',
-        uri: response.request?.url,
-      );
-    }
-  }
-
-  // Autres endpoints
   static Future<String> getStorePrompt() async {
     final response = await http.get(
       Uri.parse('$_baseUrl/get-store-prompt'),
@@ -180,5 +164,27 @@ class ApiService {
     );
   }
 
-  static String? getToken() {}
+  // Helpers
+  static Map<String, String> _buildHeaders() {
+    return {
+      'Content-Type': 'application/json',
+      if (_token != null) 'Authorization': 'Bearer $_token',
+    };
+  }
+
+  static T _handleResponse<T>(
+    http.Response response,
+    T Function(dynamic) parser,
+  ) {
+    if (response.statusCode == 200) {
+      return parser(jsonDecode(response.body));
+    } else {
+      throw HttpException(
+        'Request failed with status: ${response.statusCode}',
+        uri: response.request?.url,
+      );
+    }
+  }
+
+  static String? getToken() => _token;
 }
