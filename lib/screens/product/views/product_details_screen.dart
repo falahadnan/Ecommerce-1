@@ -4,15 +4,15 @@ import 'package:shop/services/api_service.dart';
 import 'package:shop/models/product_model.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  final bool isProductAvialable;
+  final bool isProductAvailable;
 
   const ProductDetailsScreen({super.key, required this.isProductAvailable});
 
   @override
-  _ProductDetailsSrennState createState() => _ProductDetailsScreenState();
+  _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
 
-class _ProductDetailsSrennState extends State<_ProductDetailsSrennState> {
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   List<ProductModel> products = [];
   bool isLoading = false;
   String? error;
@@ -30,7 +30,7 @@ class _ProductDetailsSrennState extends State<_ProductDetailsSrennState> {
     });
 
     try {
-      final loadedProducts = await ApiService.fetchProducts(); // Appel API ici
+      final loadedProducts = await ApiService.fetchProducts();
       setState(() {
         products = loadedProducts;
       });
@@ -44,12 +44,16 @@ class _ProductDetailsSrennState extends State<_ProductDetailsSrennState> {
       });
     }
   }
-   class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) return Center(child: CircularProgressIndicator());
-    if (error != null) return Center(child: Text('Erreur: $error'));
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (error != null) {
+      return Center(child: Text('Erreur: $error'));
+    }
 
     return ListView.builder(
       itemCount: products.length,

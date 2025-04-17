@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import 'package:provider/provider.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/services/product_service.dart';
@@ -21,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    final productService = ProductService(Provider.of(context, listen: false));
+    final productService = Provider.of<ProductService>(context, listen: false);
     _productsFuture = productService.getProducts();
   }
 
