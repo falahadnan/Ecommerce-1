@@ -1,5 +1,5 @@
 name: shop
-description: FlutterShop is a premium E-commerce UI kit that you can use to build various e-commerce apps using Flutter that works on both Android & iOS. This kit contains 100+ nicely crafted minimal screens that cover everything you need for your shop app.
+description: FlutterShop is a premium E-commerce UI kit...
 
 publish_to: "none"
 
@@ -9,11 +9,10 @@ environment:
   sdk: ">=3.2.0 <4.0.0"
 
 dependencies:
-
   flutter:
     sdk: flutter
-
   
+  # Vos dépendances existantes
   flutter_secure_storage: ^9.0.0
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.10+1
@@ -30,18 +29,26 @@ dependencies:
   video_player: ^2.8.0
   http_parser: ^4.0.2
   mime_type: ^1.0.0
+  intl: ^0.19.0
+  
+  # AJOUTEZ CES DEUX NOUVELLES DÉPENDANCES
+  flutter_localizations:
+    sdk: flutter
+  intl_utils: ^2.8.0 # Pour la génération des fichiers de traduction
 
 dev_dependencies:
-
   flutter_test:
-
     sdk: flutter
-
-    
+  
+  # Ajoutez ceci si vous voulez utiliser l'analyse de code
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
-
+  
+  # Ajoutez cette section si vous voulez utiliser les fichiers ARB pour les traductions
+  generate: true
+  
   assets:
     - assets/images/
     - assets/icons/
@@ -49,6 +56,8 @@ flutter:
     - assets/flags/
     - assets/logo/
     - assets/screens/
+    # Ajoutez ceci si vous utilisez des fichiers de traduction
+    - lib/l10n/
 
   fonts:
     - family: Plus Jakarta

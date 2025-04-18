@@ -5,13 +5,23 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:shop/models/product_model.dart';
+import 'package:dio/dio.dart';
 
 class ApiService {
   static const String _baseUrl = "https://admin.skaidev.com/api";
-  static String? _token = '1321|ZCfaF11Dy9nP7UWgLztpYN7j76v75mjnXz0dlAEn'; // Ton token ici
+  static String? _token =
+      '1321|ZCfaF11Dy9nP7UWgLztpYN7j76v75mjnXz0dlAEn'; // Ton token ici
+  final Dio dio = Dio();
+
+  ApiService() {
+    // Configuration de base de Dio
+    dio.options.baseUrl = 'https://admin.skaidev.com/api';
+    dio.options.connectTimeout = const Duration(seconds: 30);
+    dio.options.receiveTimeout = const Duration(seconds: 30);
+  }
 
   // Authentification
-  static Future<bool> login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$_baseUrl/login'),
       body: jsonEncode({'email': email, 'password': password}),
@@ -25,7 +35,7 @@ class ApiService {
     return false;
   }
 
-  static Future<void> logout() async {
+  Future<void> logout() async {
     await http.post(
       Uri.parse('$_baseUrl/logout'),
       headers: {'Authorization': 'Bearer $_token'},
@@ -49,7 +59,7 @@ class ApiService {
   }
 
   // Génération de contenu
-  static Future<String> generateContent(String message) async {
+  Future<String> generateContent(String message) async {
     final response = await http.post(
       Uri.parse('$_baseUrl/content-generator'),
       headers: _buildHeaders(),
@@ -63,7 +73,7 @@ class ApiService {
   }
 
   // Médias
-  static Future<List<String>> getGallery() async {
+  Future<List<String>> getGallery() async {
     final response = await http.get(
       Uri.parse('$_baseUrl/gallery-store'),
       headers: _buildHeaders(),
@@ -75,7 +85,7 @@ class ApiService {
     );
   }
 
-  static Future<List<dynamic>> fetchImages({int page = 1}) async {
+  Future<List<dynamic>> fetchImages({int page = 1}) async {
     final response = await http.get(
       Uri.parse('$_baseUrl/image-gallery?page=$page'),
       headers: _buildHeaders(),
@@ -87,7 +97,7 @@ class ApiService {
     );
   }
 
-  static Future<String> uploadImage(File imageFile) async {
+  Future<String> uploadImage(File imageFile) async {
     final mimeType = mime(imageFile.path) ?? 'application/octet-stream';
     final mimeData = mimeType.split('/');
 
@@ -111,7 +121,7 @@ class ApiService {
     );
   }
 
-  static Future<String> uploadVideo(File videoFile) async {
+  Future<String> uploadVideo(File videoFile) async {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('$_baseUrl/save-video'),
@@ -186,5 +196,9 @@ class ApiService {
     }
   }
 
-  static String? getToken() => _token;
+  String? getToken() => _token;
+
+  void dispose() {
+    dio.close();
+  }
 }

@@ -9,7 +9,7 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  List<ProductModel> products = [];
+  Future<List<ProductModel>> products = [];
   bool isLoading = false;
   String? error;
 
@@ -45,7 +45,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     if (isLoading) return Center(child: CircularProgressIndicator());
     if (error != null) return Center(child: Text('Erreur: $error'));
-    
+
     return ListView.builder(
       itemCount: products.length,
       itemBuilder: (context, index) {

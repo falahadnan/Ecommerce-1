@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/product.dart';
+import 'package:shop/models/product_model.dart';
 import 'package:shop/services/product_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -13,13 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Product>> _productsFuture;
+  late Future<List<ProductModel>> _productsFuture;
 
   @override
   void initState() {
     super.initState();
-    final productService = Provider.of<ProductService>(context, listen: false);
-    _productsFuture = productService.getProducts();
+    final productService = Provider.of<ProductsScreen>(context, listen: false);
+    final productState = productService.createState();
+    _productsFuture = productState.products;
   }
 
   @override

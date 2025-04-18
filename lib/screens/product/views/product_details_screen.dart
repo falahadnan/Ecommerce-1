@@ -6,7 +6,11 @@ import 'package:shop/models/product_model.dart';
 class ProductDetailsScreen extends StatefulWidget {
   final bool isProductAvailable;
 
-  const ProductDetailsScreen({super.key, required this.isProductAvailable});
+  const ProductDetailsScreen({
+    super.key,
+    required this.isProductAvailable,
+    // Require the service
+  });
 
   @override
   _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
@@ -30,6 +34,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
 
     try {
+      // Use the injected service instead of static call
       final loadedProducts = await ApiService.fetchProducts();
       setState(() {
         products = loadedProducts;

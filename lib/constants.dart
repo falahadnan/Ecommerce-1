@@ -13,6 +13,10 @@ abstract class AppColors {
   static const background = Color(0xFFFFFFFF); // White background
   static const card =
       Color(0xFFF7F9FC); // Light gray for cards from devaito.com
+  static const String storeLanguage = '/get-store-language';
+  static const String baseUrl = 'https://admin.skaidev.com/api';
+  // static const String storeLanguage = '/get-store-language';
+  // Ajoutez d'autres endpoints au besoin
 }
 
 // Just for demo

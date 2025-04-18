@@ -1,29 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/route/route_constants.dart';
 import 'package:shop/route/router.dart' as router;
+import 'package:shop/services/api_service.dart';
+import 'package:shop/services/language_service.dart';
 import 'package:shop/theme/app_theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'; // Import crucial
 
 void main() {
-  runApp(const MyApp());
-}
+  runApp(
+    MultiProvider(
+      providers: [
+        // Provider pour le service API
+        Provider<ApiService>(
+          create: (_) => ApiService(),
+          dispose: (_, apiService) => apiService.dispose(),
+        ),
 
-// Thanks for using our template. You are using the free version of the template.
-// 🔗 Full template: https://theflutterway.gumroad.com/l/fluttershop
+        // Provider pour le service de langue
+        Provider<LanguageService>(
+          create: (context) => LanguageService(context.read<ApiService>()),
+        ),
+
+        // Ajoutez d'autres providers ici selon vos besoins
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Shop Template by The Flutter Way',
+      title: 'Shop App',
+
+      // Configuration du thème
       theme: AppTheme.lightTheme(context),
-      // Dark theme is inclided in the Full template
+      darkTheme: AppTheme.darkTheme(context), // Optionnel
       themeMode: ThemeMode.light,
+
+      locale: const Locale('fr', 'FR'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('fr', 'FR'), // Français
+        // Vous pouvez ajouter d'autres langues si besoin :
+        // Locale('en', 'US'), // Anglais
+      ],
+
+      // Gestion des routes
       onGenerateRoute: router.generateRoute,
       initialRoute: onbordingScreenRoute,
+
+      // Configuration supplémentaire
+      //locale: const Locale('fr', 'FR'), // Pour le français
+      //supportedLocales: const [Locale('fr', 'FR')],
     );
   }
 }
