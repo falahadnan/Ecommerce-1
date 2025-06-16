@@ -11,6 +11,8 @@ class FlashSale extends StatelessWidget {
     super.key,
   });
 
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,12 +20,12 @@ class FlashSale extends StatelessWidget {
       children: [
         // While loading show 👇
         // const BannerMWithCounterSkelton(),
-        BannerMWithCounter(
-          duration: const Duration(hours: 8),
-          text: "Super Flash Sale \n50% Off",
-          press: () {},
-        ),
-        const SizedBox(height: defaultPadding / 2),
+        //BannerMWithCounter(
+          ////duration: const Duration(hours: 8),
+          ////text: "Super Flash Sale \n50% Off",
+          ///press: () {},
+        //),
+        //const SizedBox(height: defaultPadding / 2),
         Padding(
           padding: const EdgeInsets.all(defaultPadding),
           child: Text(

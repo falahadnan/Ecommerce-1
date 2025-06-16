@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../constants.dart';
 
 class WalletBalanceCard extends StatelessWidget {
@@ -12,14 +11,13 @@ class WalletBalanceCard extends StatelessWidget {
   final double balance;
   final VoidCallback onTabChargeBalance;
 
-  get whileColor => null;
-
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 2,
       child: Column(
         children: [
+          // 🔷 الجزء اللي فيه الرصيد
           Expanded(
             child: Container(
               width: double.infinity,
@@ -35,11 +33,12 @@ class WalletBalanceCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Your current balance",
+                    "رصيدك الحالي",
                     style: TextStyle(
-                        color: whiteColor80,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12),
+                      color: whiteColor80,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                    ),
                   ),
                   const SizedBox(height: defaultPadding / 2),
                   Text(
@@ -53,6 +52,8 @@ class WalletBalanceCard extends StatelessWidget {
               ),
             ),
           ),
+
+          // 🔷 زر الشحن
           ElevatedButton(
             onPressed: onTabChargeBalance,
             style: ElevatedButton.styleFrom(
@@ -63,9 +64,13 @@ class WalletBalanceCard extends StatelessWidget {
                   bottomRight: Radius.circular(defaultBorderRadious),
                 ),
               ),
+              padding: const EdgeInsets.symmetric(vertical: 16),
             ),
-            child: const Text("+ Charge Balance"),
-          )
+            child: const Text(
+              "+ شحن الرصيد",
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
         ],
       ),
     );

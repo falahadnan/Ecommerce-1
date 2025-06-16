@@ -1,3 +1,5 @@
+import 'package:shop/category_screens.dart';
+
 const String onbordingScreenRoute = "onbording";
 const String notificationPermissionScreenRoute = "notification_permission";
 const String preferredLanuageScreenRoute = "preferred_language";
@@ -20,9 +22,7 @@ const String productReviewsScreenRoute = "product_reviews";
 const String addReviewsScreenRoute = "add_reviews";
 const String homeScreenRoute = "home";
 const String brandScreenRoute = "brand";
-const String discoverWithImageScreenRoute = "discover_with_image";
-const String subDiscoverScreenRoute = "sub_discover";
-const String discoverScreenRoute = "discover";
+
 const String onSaleScreenRoute = "on_sale";
 const String kidsScreenRoute = "kids";
 const String searchScreenRoute = "search";
@@ -39,7 +39,7 @@ const String notificationsScreenRoute = "notifications";
 const String noNotificationScreenRoute = "no_notifications";
 const String enableNotificationScreenRoute = "enable_notifications";
 const String notificationOptionsScreenRoute = "notification_options";
-const String selectLanguageScreenRoute = "select_language";
+const String selectLanguageScreenRoute = '/select_language';
 const String noAddressScreenRoute = "no_address";
 const String addressesScreenRoute = "addresses";
 const String addNewAddressesScreenRoute = "add_new_addresses";
@@ -57,3 +57,27 @@ const String cartScreenRoute = "cart";
 const String paymentMethodScreenRoute = "payment_method";
 const String addNewCardScreenRoute = "add_new_card";
 const String thanksForOrderScreenRoute = "thanks_order";
+
+const String test34ScreenRoute = "test34";
+const String VoituresNeuvesScreen = "Voitures_Neuves";
+const String VoituresdOccasionScreen = "Voitures_dOccasion";
+const String SUVsScreen = "SUVs";
+const String BerlinesScreen = "Berlines";
+const String MonospacesScreen = "Monospaces";
+const String CoupesScreen = "Coupes";
+const String VehiculesElectriquesScreen = "VehiculesElectriques";
+const String AccessoiresetPiecesScreen = "AccessoiresetPieces";
+
+//const String colorsScreenRoute = '/colors';
+//const String mediaScreenRoute = '/media';
+const String productsScreenRoute = '/products';
+//const String storeScreenRoute = '/store';
+const String languageScreenRoute = '/language';
+const String categoriesScreenRoute = '/categories';
+const String faqScreenRoute = '/faq';
+const String contactUsScreenRoute = '/contact_us';
+const String wishlistScreenRoute = '/wishlist';
+const String promotionScreenRoute = '/promotion';
+const String settingsScreenRoute = '/settings';
+const String paymentScreenRoute = '/payment';
+const String editProfileScreenRoute = "/edit-profile";

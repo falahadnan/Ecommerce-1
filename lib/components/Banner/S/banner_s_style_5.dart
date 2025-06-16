@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
@@ -8,7 +8,7 @@ import 'banner_s.dart';
 class BannerSStyle5 extends StatelessWidget {
   const BannerSStyle5({
     super.key,
-    this.image = "https://i.imgur.com/wQ0sNHT.png",
+    this.image = "https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg",
     required this.title,
     required this.press,
     this.subtitle,
@@ -90,3 +90,4 @@ class BannerSStyle5 extends StatelessWidget {
     );
   }
 }
+*/

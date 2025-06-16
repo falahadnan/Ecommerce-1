@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:shop/category_screens.dart';
 import 'package:shop/entry_point.dart';
 
+import 'package:flutter/material.dart';
+import 'package:shop/products_screen.dart';
+import 'package:shop/screens/EditProfileScreen.dart';
+import 'package:shop/screens/payment_screen.dart';
+import 'package:shop/screens/product_details.dart';
+// import 'package:shop/screens/wallet_screen.dart';
+import 'package:shop/select_laguage_screen.dart';
+import 'package:shop/services/cart_service.dart';
+
+import '../screens/wallet_screen.dart' as wallet_screen;
 import 'screen_export.dart';
+import 'package:shop/screens/faq/faq_screen.dart';
+import 'package:shop/screens/contact/contact_us_screen.dart';
+import 'package:shop/screens/promotion/promotion_screen.dart';
+import 'package:shop/screens/settings/settings_screen.dart';
+import 'package:shop/screens/payment/payment_method_screen.dart'; // adapte le chemin si besoin
+import 'package:shop/screens/notification/view/notificatios_screen.dart'; // adapte le chemin si besoin
+import 'package:shop/screens/language/views/select_language_screen.dart';
+import 'package:shop/screens/category_detail_screen.dart';
 
 // Yuo will get 50+ screens and more once you have the full template
 // 🔗 Full template: https://theflutterway.gumroad.com/l/fluttershop
@@ -76,6 +95,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       );
+
+    case '/categoryDetail':
+      final args = settings.arguments as Map<String, dynamic>;
+      return MaterialPageRoute(
+        builder: (_) => CategoryDetailScreen(
+          id: args['id'],
+          name: args['name'],
+          slug: args['slug'],
+          imageUrl: args['imageUrl'],
+        ),
+      );
     case signUpScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const SignUpScreen(),
@@ -128,13 +158,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   return MaterialPageRoute(
     //     builder: (context) => const SetupFaceIdScreen(),
     //   );
-    case productDetailsScreenRoute:
-      return MaterialPageRoute(
-        builder: (context) {
-          bool isProductAvailable = settings.arguments as bool? ?? true;
-          return ProductDetailsScreen(isProductAvailable: isProductAvailable);
-        },
-      );
+    // case productDetailsScreenRoute:
+    //   return MaterialPageRoute(
+    //     builder: (context) {
+    //       bool isProductAvailable = settings.arguments as bool? ?? true;
+    //       return ProductDetailsScreen(isProductAvailable: isProductAvailable);
+    //     },
+    //   );
     case productReviewsScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const ProductReviewsScreen(),
@@ -159,10 +189,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   return MaterialPageRoute(
     //     builder: (context) => const SubDiscoverScreen(),
     //   );
-    case discoverScreenRoute:
-      return MaterialPageRoute(
-        builder: (context) => const DiscoverScreen(),
-      );
+
     case onSaleScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const OnSaleScreen(),
@@ -217,20 +244,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case noNotificationScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const NoNotificationScreen(),
+        builder: (context) => const NotificationsScreen(),
       );
     case enableNotificationScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const EnableNotificationScreen(),
       );
-    case notificationOptionsScreenRoute:
+
+    case selectLanguageScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const NotificationOptionsScreen(),
+        builder: (context) => const SelectLanguageScreen(),
       );
-    // case selectLanguageScreenRoute:
-    //   return MaterialPageRoute(
-    //     builder: (context) => const SelectLanguageScreen(),
-    //   );
     // case noAddressScreenRoute:
     //   return MaterialPageRoute(
     //     builder: (context) => const NoAddressScreen(),
@@ -275,22 +299,19 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   return MaterialPageRoute(
     //     builder: (context) => const EmptyPaymentScreen(),
     //   );
-    case emptyWalletScreenRoute:
-      return MaterialPageRoute(
-        builder: (context) => const EmptyWalletScreen(),
-      );
+
     case walletScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => WalletScreen(),
+        builder: (context) => const wallet_screen.WalletScreen(),
       );
     case cartScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const CartScreen(),
       );
-    // case paymentMethodScreenRoute:
-    //   return MaterialPageRoute(
-    //     builder: (context) => const PaymentMethodScreen(),
-    //   );
+    case paymentScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const PaymentScreen(),
+      );
     // case addNewCardScreenRoute:
     //   return MaterialPageRoute(
     //     builder: (context) => const AddNewCardScreen(),
@@ -299,10 +320,76 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   return MaterialPageRoute(
     //     builder: (context) => const ThanksForOrderScreen(),
     //   );
+
+    // case languageScreenRoute:
+    //  return MaterialPageRoute(
+    //  builder: (context) => const LanguageScreen(),
+    //);
+
+    //case colorsScreenRoute:
+    //return MaterialPageRoute(
+    //builder: (context) => const ColorsScreen(),
+    //);
+
+    //case mediaScreenRoute:
+    //return MaterialPageRoute(
+    //builder: (context) => const  MediaScreen(),
+    //);
+
+    //case productsScreenRoute:
+    //return MaterialPageRoute(
+    //builder: (context) => const ProductsScreen(),
+    //);
+
+    //case storeScreenRoute:
+    //return MaterialPageRoute(
+    //builder: (context) => const StoreScreen(),
+    //);
+
+    //case categoriesScreenRoute:
+    //return MaterialPageRoute(
+    // builder: (_) => const CategoriesScreen()
+    //);
+
+    case categoriesScreenRoute:
+      return MaterialPageRoute(builder: (_) => const CategoriesScreen());
+
+    case '/products':
+      var demoProducts;
+      return MaterialPageRoute(
+          builder: (_) => ProductsScreen(products: demoProducts));
+    case '/cart':
+      return MaterialPageRoute(builder: (_) => const CartScreen());
+
+    case '/user':
+      return MaterialPageRoute(builder: (_) => const UserInfoScreen());
+
+    case ordersScreenRoute:
+      return MaterialPageRoute(builder: (_) => const OrdersScreen());
+
+    case wishlistScreenRoute:
+      return MaterialPageRoute(builder: (_) => const WishlistScreen());
+
+    case editProfileScreenRoute:
+      return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+
+    case productDetailsScreenRoute:
+      return MaterialPageRoute(
+          builder: (_) => const ProductDetailsScreen(
+                productId: 0,
+              ));
+
     default:
       return MaterialPageRoute(
         // Make a screen for undefine
-        builder: (context) => const OnBordingScreen(),
+        builder: (_) => Scaffold(
+          body: Center(
+            child: Text(
+              'No route defined for ${settings.name}',
+            ),
+          ),
+        ),
       );
   }
 }
+

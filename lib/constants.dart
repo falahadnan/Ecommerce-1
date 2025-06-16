@@ -13,10 +13,6 @@ abstract class AppColors {
   static const background = Color(0xFFFFFFFF); // White background
   static const card =
       Color(0xFFF7F9FC); // Light gray for cards from devaito.com
-  static const String storeLanguage = '/get-store-language';
-  static const String baseUrl = 'https://admin.skaidev.com/api';
-  // static const String storeLanguage = '/get-store-language';
-  // Ajoutez d'autres endpoints au besoin
 }
 
 // Just for demo
@@ -95,3 +91,16 @@ final emaildValidator = MultiValidator([
 ]);
 
 const pasNotMatchErrorText = "passwords do not match";
+
+// Ajoutez dans constants.dart
+const productCardBorderRadius = 12.0;
+const productCardPadding = 8.0;
+const productImageHeight = 120.0;
+
+// Mauvais
+// final String baseUrl = 'https://ton-api.com';
+
+// Bon (exemples)
+const String baseUrl = 'https://admine.skaidev.com';
+// ou pour un backend local sur un émulateur Android :
+// const String baseUrl = 'http://10.0.2.2:8000';

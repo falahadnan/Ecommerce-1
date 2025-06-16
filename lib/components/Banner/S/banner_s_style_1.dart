@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../banner_discount_tag.dart';
 
@@ -8,7 +8,7 @@ import 'banner_s.dart';
 class BannerSStyle1 extends StatelessWidget {
   const BannerSStyle1({
     super.key,
-    this.image = "https://i.imgur.com/K41Mj7C.png",
+    this.image = "https://images.pexels.com/photos/726233/pexels-photo-726233.jpeg",
     required this.title,
     required this.press,
     this.subtitle,
@@ -79,14 +79,14 @@ class BannerSStyle1 extends StatelessWidget {
             ],
           ),
         ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: BannerDiscountTag(
-            percentage: discountParcent,
-            height: 56,
-          ),
-        ),
+       // Align(
+         // alignment: Alignment.topCenter,
+          //child: BannerDiscountTag(
+            //percentage: discountParcent,
+            //height: 56,
+          //),
+        //),
       ],
     );
   }
-}
+}*/

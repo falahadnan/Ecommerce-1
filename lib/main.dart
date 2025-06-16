@@ -1,67 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/services/cart_service.dart';
+import 'package:shop/entry_point.dart';
 import 'package:shop/route/route_constants.dart';
 import 'package:shop/route/router.dart' as router;
-import 'package:shop/services/api_service.dart';
-import 'package:shop/services/language_service.dart';
+import 'package:shop/route/screen_export.dart';
 import 'package:shop/theme/app_theme.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'; // Import crucial
+import 'package:shop/token_manager.dart';
 
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        // Provider pour le service API
-        Provider<ApiService>(
-          create: (_) => ApiService(),
-          dispose: (_, apiService) => apiService.dispose(),
-        ),
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-        // Provider pour le service de langue
-        Provider<LanguageService>(
-          create: (context) => LanguageService(context.read<ApiService>()),
-        ),
-
-        // Ajoutez d'autres providers ici selon vos besoins
-      ],
-      child: const MyApp(),
-    ),
-  );
+void main() async {
+  // Make main async
+  WidgetsFlutterBinding.ensureInitialized(); // Crucial
+  await TokenManager().loadTokenFromStorage(); // Load token before app runs
+  // ApiClient.initialize(); // If you had an initialize method for ApiClient interceptors later
+  runApp(const MyApp()); // Assuming your root widget is MyApp
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// Thanks for using our template. You are using the free version of the template.
+// 🔗 Full template: https://theflutterway.gumroad.com/l/fluttershop
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key, navigatorKey});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'Shop App',
-
-      // Configuration du thème
+      title: 'Shop Template by The Flutter Way',
       theme: AppTheme.lightTheme(context),
-      darkTheme: AppTheme.darkTheme(context), // Optionnel
+      // Dark theme is inclided in the Full template
       themeMode: ThemeMode.light,
-
-      locale: const Locale('fr', 'FR'),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('fr', 'FR'), // Français
-        // Vous pouvez ajouter d'autres langues si besoin :
-        // Locale('en', 'US'), // Anglais
-      ],
-
-      // Gestion des routes
       onGenerateRoute: router.generateRoute,
       initialRoute: onbordingScreenRoute,
-
-      // Configuration supplémentaire
-      //locale: const Locale('fr', 'FR'), // Pour le français
-      //supportedLocales: const [Locale('fr', 'FR')],
     );
   }
 }

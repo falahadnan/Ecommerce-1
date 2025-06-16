@@ -1,60 +1,88 @@
-// lib/screens/products_screen.dart
-import 'package:flutter/material.dart';
-import 'package:shop/services/api_service.dart';
 import 'package:shop/models/product_model.dart';
 
-class ProductsScreen extends StatefulWidget {
-  @override
-  _ProductsScreenState createState() => _ProductsScreenState();
+import 'api_client.dart';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+
+class ProductService {
+  static Future<Map<String, dynamic>> fetchAllProducts() async {
+    try {
+      final response = await ApiClient.get('/fetch-all-products', body: {});
+      return response.data;
+    } catch (e) {
+      throw Exception('Failed to load products   :   $e');
+    }
+  }
 }
 
-class _ProductsScreenState extends State<ProductsScreen> {
-  Future<List<ProductModel>> products = [];
-  bool isLoading = false;
-  String? error;
+// lib/services/products_service.dart
 
-  @override
-  void initState() {
-    super.initState();
-    _loadProducts();
-  }
+class ProductsService {
+  static final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://admin.skaidev.com/api',
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
+      headers: {'Accept': 'application/json'},
+    ),
+  );
 
-  Future<void> _loadProducts() async {
-    setState(() {
-      isLoading = true;
-      error = null;
-    });
+  /// Récupère les produits d'une catégorie spécifique.
+  /// L'API doit supporter un filtre comme `category_id`.
+  static Future<Map<String, dynamic>> fetchProductsByCategory({
+    required int categoryId,
+    int page = 1,
+  }) async {
+    // Endpoint pour les produits. Adaptez si le nom est différent (ex: /get-products)
+    const String productsEndpoint = '/products';
 
     try {
-      final loadedProducts = await ApiService.fetchProducts(); // Appel API ici
-      setState(() {
-        products = loadedProducts;
-      });
+      if (kDebugMode) {
+        print(
+            "ProductsService: Appel de GET $productsEndpoint avec category_id=$categoryId");
+      }
+
+      final response = await _dio.get(
+        productsEndpoint,
+        queryParameters: {
+          'category_id': categoryId, // C'est le paramètre clé pour filtrer !
+          'page': page,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception(
+            'Échec du chargement des produits. Code: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (kDebugMode) print("ProductsService: Erreur Dio -> ${e.message}");
+      rethrow; // Propage l'erreur pour que l'UI puisse la gérer
     } catch (e) {
-      setState(() {
-        error = e.toString();
-      });
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (kDebugMode) print("ProductsService: Erreur générique -> $e");
+      rethrow;
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (isLoading) return Center(child: CircularProgressIndicator());
-    if (error != null) return Center(child: Text('Erreur: $error'));
+  static Future<Product> fetchProductById(int productId) async {
+    final String endpoint = '/products/$productId'; // <-- adapte ici
 
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        final product = products[index];
-        return ListTile(
-          title: Text(product.name),
-          subtitle: Text('${product.price} ${product.currency}'),
-        );
-      },
-    );
+    try {
+      final response = await _dio.get(endpoint);
+      if (response.statusCode == 200) {
+        return Product.fromJson(response.data);
+      } else {
+        throw Exception(
+            'Échec du chargement du produit. Code: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (kDebugMode) print("ProductsService: Erreur Dio -> ${e.message}");
+      rethrow;
+    } catch (e) {
+      if (kDebugMode) print("ProductsService: Erreur générique -> $e");
+      rethrow;
+    }
   }
 }

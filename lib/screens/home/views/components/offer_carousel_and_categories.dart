@@ -1,7 +1,8 @@
+// In OffersCarouselAndCategories.dart
 import 'package:flutter/material.dart';
-
+// Ensure this path correctly points to your StatefulWidget named Categories
+import 'package:shop/screens/home/views/components/categories.dart';
 import '../../../../constants.dart';
-import 'categories.dart';
 import 'offers_carousel.dart';
 
 class OffersCarouselAndCategories extends StatelessWidget {
@@ -14,8 +15,6 @@ class OffersCarouselAndCategories extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // While loading use 👇
-        // const OffersSkelton(),
         const OffersCarousel(),
         const SizedBox(height: defaultPadding / 2),
         Padding(
@@ -25,9 +24,8 @@ class OffersCarouselAndCategories extends StatelessWidget {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
-        // While loading use 👇
-        // const CategoriesSkelton(),
-        const Categories(),
+        // Ensure 'Categories' here refers to your StatefulWidget
+        const CategoriesWidget(), // <<< This line should work if Categories is a widget
       ],
     );
   }
