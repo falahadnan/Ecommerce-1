@@ -9,6 +9,8 @@ class CartItem {
   final String? image;
   final int quantity;
 
+  var product;
+
   CartItem({
     required this.id,
     required this.productId,

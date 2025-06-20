@@ -1,5 +1,3 @@
-import 'package:shop/models/cart_model.dart';
-
 // TODO Implement this library.
 class CartItem {
   final String id;
@@ -29,17 +27,29 @@ class CartItem {
         'quantity': quantity,
       };
 
-  factory CartItem.fromJson(Map<String, dynamic> json) => CartItem(
-        id: json['id'],
-        productId: json['productId'],
-        name: json['name'],
-        price: json['price'].toDouble(),
-        image: json['image'],
-        quantity: json['quantity'],
-      );
+  // === LA CORRECTION EST ICI ===
+  factory CartItem.fromJson(Map<String, dynamic> json) {
+    // On s'assure que les valeurs ne sont pas nulles et on les convertit au bon type
+    return CartItem(
+      // On convertit la valeur en String pour correspondre au type `final String id;`
+      id: json['id'].toString(),
+      // On fait de même pour productId par sécurité
+      productId: json['productId'].toString(), 
+      name: json['name'] ?? 'Inconnu',
+      // toDouble() est correct car `price` est un double
+      price: (json['price'] ?? 0.0).toDouble(), 
+      image: json['image'] ?? '',
+      // On s'assure que la quantité est bien un int
+      quantity: (json['quantity'] ?? 1) as int,
+    );
+  }
+
+  num? get subtotal => null;
 }
 
+// La classe Cart n'a pas besoin de modification
 class Cart {
+  // ... (le reste du code est correct)
   final List<CartItem> items;
 
   Cart({required this.items});

@@ -178,6 +178,18 @@ class CartStorage extends StatelessWidget {
   }
 }
 
+class CartService {
+  get cart => null;
+  
+  void removeItem(productId) {}
+  
+  void addItem(CartItem item) {}
+  
+  void updateQuantity(productId, param1) {}
+  
+  void clearCart() {}
+}
+
 
 
     

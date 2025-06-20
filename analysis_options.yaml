@@ -10,7 +10,7 @@
 analyzer:
   errors:
     unnecessary_cast: ignore
-    empty_statements: ignore
+    empty_statements: ignore ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

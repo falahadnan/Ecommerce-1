@@ -16,7 +16,8 @@ class ProductListScreen extends StatelessWidget {
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             child: ListTile(
-              leading: Image.network(p.image, width: 60, height: 60, fit: BoxFit.cover),
+              leading: Image.network(p.image,
+                  width: 60, height: 60, fit: BoxFit.cover),
               title: Text(p.name),
               subtitle: Text('${p.price} ${p.devise}'),
               onTap: () {
@@ -38,13 +39,13 @@ final Map<String, dynamic> responseData = {
       'name': 'Product 1',
       'price': 10.0,
       'devise': 'USD',
-      'image': 'https://via.placeholder.com/60'
+      'image': 'https://test666.skaidev.com/api/60'
     },
     {
       'name': 'Product 2',
       'price': 20.0,
       'devise': 'USD',
-      'image': 'https://via.placeholder.com/60'
+      'image': 'https://test666.skaidev.com/api/60'
     },
   ]
 };

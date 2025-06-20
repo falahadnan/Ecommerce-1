@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://admin.skaidev.com/api';
+  static const String baseUrl = 'https://test666.skaidev.com/api';
   static const storage = FlutterSecureStorage();
 
   static get page => null;
@@ -59,7 +59,7 @@ class ApiService {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://test34453.skaidev.com/api/fetch-categories?page=$page'),
+            'https://test666.skaidev.com/api/fetch-categories?page=$page'),
       );
 
       if (response.statusCode == 200) {

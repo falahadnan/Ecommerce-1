@@ -9,7 +9,7 @@ class ApiClient {
   // If you later refactor to use a single Dio instance with interceptors, this will be important.
   static final Dio _unusedDioInstance = Dio(BaseOptions(
     baseUrl:
-        'https://admine.skandev.com', // Example, not used by current get/post
+        'https://test666.skaidev.com/api', // Example, not used by current get/post
     connectTimeout: const Duration(seconds: 30),
   ));
 
@@ -38,7 +38,7 @@ class ApiClient {
     if (kDebugMode) {
       print("--- ApiClient GET (Using TokenManager) ---");
       print("Path: $path");
-      print("Target URL: https://admin.skaidev.com/api$path"); // Hardcoded URL
+      print("Target URL: https://test666.skaidev.com/api$path"); // Hardcoded URL
       print("Token from TokenManager: $token");
       print("Headers being sent: $requestHeaders");
       if (queryParameters != null) print("Query Params: $queryParameters");
@@ -48,7 +48,7 @@ class ApiClient {
     try {
       var response = await dio.get(
         // Changed from dio.request to dio.get for clarity
-        'https://admin.skaidev.com/api$path', // ALWAYS HITS DEPLOYED
+        'https://test666.skaidev.com/api$path', // ALWAYS HITS DEPLOYED
         queryParameters: queryParameters,
         options: Options(
           method: 'GET', // Explicitly GET, though dio.get implies it
@@ -95,7 +95,7 @@ class ApiClient {
     if (kDebugMode) {
       print("--- ApiClient POST (Using TokenManager) ---");
       print("Path: $path");
-      print("Target URL: https://admin.skaidev.com/api$path"); // Hardcoded URL
+      print("Target URL: https://test666.skaidev.com/api$path"); // Hardcoded URL
       print("Token from TokenManager: $token");
       print("Headers being sent: $requestHeaders");
       if (data != null) print("Data being sent: $data");
@@ -105,7 +105,7 @@ class ApiClient {
     try {
       var response = await dio.post(
         // Changed from dio.request to dio.post for clarity
-        'https://admin.skaidev.com/api$path', // ALWAYS HITS DEPLOYED
+        'https://test666.skaidev.com/api$path', // ALWAYS HITS DEPLOYED
         data: data,
         queryParameters: queryParameters,
         options: Options(

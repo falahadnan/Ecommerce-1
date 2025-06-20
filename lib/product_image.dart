@@ -6,7 +6,7 @@ class ProductsImagesScreen extends StatelessWidget {
   const ProductsImagesScreen({super.key});
 
   Future<List<dynamic>> fetchProducts() async {
-    final url = Uri.parse('https://ton-api.com/api/products');
+    final url = Uri.parse('https://test666.skaidev.com/api/products');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       return json.decode(response.body);

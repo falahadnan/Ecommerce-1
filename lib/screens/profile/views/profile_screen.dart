@@ -35,7 +35,6 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Mon Profil'),
         centerTitle: true,
-        
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -103,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
               "Portefeuille",
               Icons.account_balance_wallet_outlined,
               () => Navigator.pushNamed(context, walletScreenRoute),
-               // Solde du portefeuille
+              // Solde du portefeuille
             ),
 
             const SizedBox(height: defaultPadding),
@@ -128,7 +127,8 @@ class ProfileScreen extends StatelessWidget {
               "Langue",
               Icons.language,
               () => Navigator.pushNamed(context, selectLanguageScreenRoute),
-              trailingText: "Français",
+                            trailingText: "langlais",
+
             ),
 
             const SizedBox(height: defaultPadding),

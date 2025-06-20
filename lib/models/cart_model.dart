@@ -10,3 +10,9 @@ class CartItem {
 
   double get total => product.price * quantity;
 }
+
+class Cart {
+  Cart(List list);
+
+  get items => null;
+}

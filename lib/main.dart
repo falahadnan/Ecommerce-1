@@ -1,39 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shop/services/cart_service.dart';
-import 'package:shop/entry_point.dart';
-import 'package:shop/route/route_constants.dart';
+import 'package:provider/provider.dart'; // <-- IMPORT NÉCESSAIRE
+import 'package:shop/services/cart_service.dart'; // <-- IMPORT NÉCESSAIRE
 import 'package:shop/route/router.dart' as router;
-import 'package:shop/route/screen_export.dart';
 import 'package:shop/theme/app_theme.dart';
 import 'package:shop/token_manager.dart';
+import 'package:shop/route/route_constants.dart';
 
+// La clé globale est conservée, elle n'interfère pas.
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  // Make main async
-  WidgetsFlutterBinding.ensureInitialized(); // Crucial
-  await TokenManager().loadTokenFromStorage(); // Load token before app runs
-  // ApiClient.initialize(); // If you had an initialize method for ApiClient interceptors later
-  runApp(const MyApp()); // Assuming your root widget is MyApp
+  // Votre logique de démarrage asynchrone est conservée
+  WidgetsFlutterBinding.ensureInitialized();
+  await TokenManager().loadTokenFromStorage();
+
+  // CORRECTION : On enveloppe l'application avec le Provider ici
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartService(), // Crée l'instance unique du service
+      child:
+          const MyApp(), // Votre application MyApp est maintenant un enfant du Provider
+    ),
+  );
 }
 
-// Thanks for using our template. You are using the free version of the template.
-// 🔗 Full template: https://theflutterway.gumroad.com/l/fluttershop
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, navigatorKey});
+  const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // Ce widget est la racine de votre application, sa configuration est conservée.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Shop Template by The Flutter Way',
+      // Votre thème personnalisé est conservé
       theme: AppTheme.lightTheme(context),
-      // Dark theme is inclided in the Full template
       themeMode: ThemeMode.light,
+      // Votre système de routage personnalisé est conservé
       onGenerateRoute: router.generateRoute,
       initialRoute: onbordingScreenRoute,
     );

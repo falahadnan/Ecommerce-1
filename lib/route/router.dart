@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/products_screen.dart';
 import 'package:shop/screens/EditProfileScreen.dart';
 import 'package:shop/screens/payment_screen.dart';
-import 'package:shop/screens/product_details.dart';
+// import 'package:shop/screens/product_details.dart';
 // import 'package:shop/screens/wallet_screen.dart';
 import 'package:shop/select_laguage_screen.dart';
 import 'package:shop/services/cart_service.dart';
@@ -21,6 +21,7 @@ import 'package:shop/screens/payment/payment_method_screen.dart'; // adapte le c
 import 'package:shop/screens/notification/view/notificatios_screen.dart'; // adapte le chemin si besoin
 import 'package:shop/screens/language/views/select_language_screen.dart';
 import 'package:shop/screens/category_detail_screen.dart';
+import 'package:shop/models/product_details_arguments.dart';
 
 // Yuo will get 50+ screens and more once you have the full template
 // 🔗 Full template: https://theflutterway.gumroad.com/l/fluttershop
@@ -374,10 +375,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const EditProfileScreen());
 
     case productDetailsScreenRoute:
+      final args = settings.arguments as ProductDetailsArguments;
       return MaterialPageRoute(
-          builder: (_) => const ProductDetailsScreen(
-                productId: 0,
-              ));
+        builder: (_) => ProductDetailsScreen(product: args.product),
+      );
 
     default:
       return MaterialPageRoute(
@@ -392,4 +393,3 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
   }
 }
-

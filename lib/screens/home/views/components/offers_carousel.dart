@@ -35,11 +35,6 @@ class _OffersCarouselState extends State<OffersCarousel> {
       discountParcent: 50,
       press: () {},
     ),
-    BannerMStyle3(
-      title: " \nyours now",
-      discountParcent: 50,
-      press: () {},
-    ),
     BannerMStyle4(
       // image: , user your image
       title: "SUMMER \nSALE",

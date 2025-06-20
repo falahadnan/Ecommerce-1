@@ -33,13 +33,13 @@ class Category {
       if (thumb.startsWith('http')) {
         finalImageUrl = thumb;
       } else {
-        finalImageUrl = 'https://admin.skaidev.com/$thumb';
+        finalImageUrl = 'https://test666.skaidev.com/api$thumb';
       }
     } else if (img != null && img.isNotEmpty) {
       if (img.startsWith('http')) {
         finalImageUrl = img;
       } else {
-        finalImageUrl = 'https://admin.skaidev.com/$img';
+        finalImageUrl = 'https://test666.skaidev.com/api$img';
       }
     }
 

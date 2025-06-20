@@ -29,5 +29,5 @@ export '/screens/user_info/views/user_info_screen.dart';
 
 export '/screens/user_info/views/wishlit_screen.dart';
 export '/screens/user_info/views/payment_screen.dart';
-export '/screens/user_info/views/wallet_screen.dart';
 export '/screens/language/views/select_language_screen.dart';
+export '../screens/product/views/product_details_screen.dart'; 

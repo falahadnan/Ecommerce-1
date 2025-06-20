@@ -9,7 +9,7 @@ class UserInfoScreen extends StatelessWidget {
     // Mock user data, تقدر تجيب البيانات من API ولا Service
     final Map<String, String> userData = {
       'Nom': 'Ahmed El Khattabi',
-      'Email': 'ahmed@example.com',
+      'Email': 'tehdbehdh@tehdbehdh.com',
       'Téléphone': '+212 612 345 678',
       'Adresse': 'Casablanca, Maroc',
       'Date de naissance': '12/03/1994',

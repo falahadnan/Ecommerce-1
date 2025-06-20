@@ -1,33 +1,14 @@
+// product_details_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-
-// Modèle Product minimal
-class Product {
-  final int id;
-  final String name;
-  final String image;
-  final String price;
-  final String devise;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.price,
-    required this.devise,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json['id'],
-        name: json['name'],
-        image: json['image'],
-        price: json['price'],
-        devise: json['devise'],
-      );
-}
+// Importez le modèle Product depuis votre fichier de liste
+import 'products_list_screen.dart'; // Assurez-vous que le chemin est correct
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({Key? key, required int productId})
+  final int productId; // On reçoit l'ID du produit à afficher
+
+  const ProductDetailsScreen({Key? key, required this.productId})
       : super(key: key);
 
   @override
@@ -35,28 +16,47 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  late Future<List<Product>> _productsFuture;
+  // Le Future va maintenant retourner un seul Product, pas une liste
+  late Future<Product> _productFuture;
 
   @override
   void initState() {
     super.initState();
-    _productsFuture = fetchProducts();
+    // On lance la recherche du produit spécifique
+    _productFuture = fetchSingleProduct(widget.productId);
   }
 
-  Future<List<Product>> fetchProducts() async {
-    final response =
-        await Dio().get('https://test666.skaidev.com/api/fetch-all-products');
-    if (response.statusCode == 200) {
-      final data = response.data;
-      var productsRaw = data['products'];
-      // Correction ici : si c'est une Map, on prend les valeurs
-      if (productsRaw is Map) {
-        productsRaw = productsRaw.values.toList();
+  Future<Product> fetchSingleProduct(int id) async {
+    try {
+      final response =
+          await Dio().get('https://test666.skaidev.com/api/fetch-all-products');
+
+      if (response.statusCode == 200) {
+        final productsData = response.data['products'];
+
+        // === VOTRE NOUVEAU CODE A ÉTÉ IMPLÉMENTÉ ICI ===
+        // Il vérifie maintenant si 'productsData' est une List.
+        if (productsData is List) {
+          final List<Product> allProducts =
+              productsData.map((json) => Product.fromJson(json)).toList();
+
+          // On cherche le produit avec le bon ID dans la liste
+          try {
+            final product = allProducts.firstWhere((p) => p.id == id);
+            return product;
+          } catch (e) {
+            throw Exception("Produit avec l'ID $id non trouvé.");
+          }
+        } else {
+          // Si les données ne sont PAS une liste, cette erreur sera levée.
+          throw Exception('Le format des données "products" est inattendu (attendu: List, reçu: ${productsData.runtimeType}).');
+        }
+
+      } else {
+        throw Exception('Erreur serveur: ${response.statusCode}');
       }
-      final List productsJson = productsRaw as List;
-      return productsJson.map((json) => Product.fromJson(json)).toList();
-    } else {
-      throw Exception('Erreur lors du chargement des produits');
+    } catch (e) {
+      throw Exception('Impossible de récupérer le produit: $e');
     }
   }
 
@@ -64,35 +64,71 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product Details'),
+        title: const Text('Détails du Produit'),
       ),
-      body: FutureBuilder<List<Product>>(
-        future: _productsFuture,
+      // Le reste de l'interface utilisateur ne change pas.
+      body: FutureBuilder<Product>(
+        future: _productFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) {
-            return Center(child: Text('Erreur: ${snapshot.error}'));
+          if (!snapshot.hasData) {
+            return const Center(child: Text('Produit non trouvé.'));
           }
-          final products = snapshot.data ?? [];
-          if (products.isEmpty) {
-            return const Center(child: Text('Aucun produit trouvé.'));
-          }
-          return ListView.builder(
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final p = products[index]; // index est bien un int ici
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
-                  leading: Image.network(p.image,
-                      width: 60, height: 60, fit: BoxFit.cover),
-                  title: Text(p.name),
-                  subtitle: Text('${p.price} ${p.devise}'),
+
+          final product = snapshot.data!;
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    product.image,
+                    width: double.infinity,
+                    height: 300,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.error, size: 50);
+                    },
+                  ),
                 ),
-              );
-            },
+                const SizedBox(height: 24),
+                Text(
+                  product.name,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${product.price} ${product.devise}',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 16),
+                Text(
+                  "Description",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Ceci est une description statique pour le produit '${product.name}'. L'API ne fournissant pas de description, nous en ajoutons une ici pour l'exemple. Vous pouvez remplacer ce texte par les vraies données si elles deviennent disponibles.",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
           );
         },
       ),

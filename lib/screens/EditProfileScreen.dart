@@ -12,7 +12,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   // Controllers (تقدر تعمرهم بالبيانات ديال المستخدم من Service)
   final _nameController = TextEditingController(text: "Ahmed El Khattabi");
-  final _emailController = TextEditingController(text: "ahmed@example.com");
+  final _emailController = TextEditingController(text: "tehdbehdh@tehdbehdh.com");
   final _phoneController = TextEditingController(text: "+212 612 345 678");
   final _addressController = TextEditingController(text: "Casablanca, Maroc");
   DateTime? _birthDate = DateTime(1994, 3, 12);
