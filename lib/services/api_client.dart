@@ -8,22 +8,26 @@ class ApiClient {
   // This _dio is NOT USED by your get/post methods below in this specific version.
   // If you later refactor to use a single Dio instance with interceptors, this will be important.
   static final Dio _unusedDioInstance = Dio(BaseOptions(
-    baseUrl: 'https://admine.skandev.com', // Example, not used by current get/post
+    baseUrl:
+        'https://admine.skandev.com', // Example, not used by current get/post
     connectTimeout: const Duration(seconds: 30),
   ));
 
   // This baseUrl is NOT USED by your get/post methods below.
   // final String baseUrlForReferenceOnly = 'http://10.0.2.2:8000';
 
-
   // No static _storage instance needed here
 
   static Future<Response> get(String path,
-      {Map<String, dynamic>? queryParameters, Map<String, String>? body /* body in GET is non-standard */}) async {
-    final token = TokenManager().currentToken; // *** GET TOKEN FROM TokenManager ***
-    final dio = Dio(); // Creates a new Dio instance for each call (as per your current working version)
+      {Map<String, dynamic>? queryParameters,
+      Map<String, String>? body /* body in GET is non-standard */}) async {
+    final token =
+        TokenManager().currentToken; // *** GET TOKEN FROM TokenManager ***
+    final dio =
+        Dio(); // Creates a new Dio instance for each call (as per your current working version)
 
-    Map<String, String> requestHeaders = { // Use Map<String,String> for headers
+    Map<String, String> requestHeaders = {
+      // Use Map<String,String> for headers
       'Accept': 'application/json',
     };
 
@@ -42,7 +46,8 @@ class ApiClient {
     }
 
     try {
-      var response = await dio.get( // Changed from dio.request to dio.get for clarity
+      var response = await dio.get(
+        // Changed from dio.request to dio.get for clarity
         'https://admin.skaidev.com/api$path', // ALWAYS HITS DEPLOYED
         queryParameters: queryParameters,
         options: Options(
@@ -71,11 +76,14 @@ class ApiClient {
     }
   }
 
-  static Future<Response> post(String path, dynamic data, {Map<String, dynamic>? queryParameters}) async {
-    final token = TokenManager().currentToken; // *** GET TOKEN FROM TokenManager ***
+  static Future<Response> post(String path, dynamic data,
+      {Map<String, dynamic>? queryParameters}) async {
+    final token =
+        TokenManager().currentToken; // *** GET TOKEN FROM TokenManager ***
     final dio = Dio(); // Creates a new Dio instance for each call
 
-    Map<String, String> requestHeaders = { // Use Map<String,String> for headers
+    Map<String, String> requestHeaders = {
+      // Use Map<String,String> for headers
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
@@ -95,13 +103,14 @@ class ApiClient {
     }
 
     try {
-      var response = await dio.post( // Changed from dio.request to dio.post for clarity
+      var response = await dio.post(
+        // Changed from dio.request to dio.post for clarity
         'https://admin.skaidev.com/api$path', // ALWAYS HITS DEPLOYED
         data: data,
         queryParameters: queryParameters,
         options: Options(
-            method: 'POST', // Explicitly POST
-            headers: requestHeaders,
+          method: 'POST', // Explicitly POST
+          headers: requestHeaders,
         ),
       );
       if (kDebugMode) {

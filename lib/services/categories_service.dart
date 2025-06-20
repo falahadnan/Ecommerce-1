@@ -11,7 +11,7 @@ class CategoriesService {
     try {
       final response = await ApiClient.get(
         path,
-        queryParameters: {'page': page},
+        queryParameters: {'page': page}, body: {},
       );
       if (response.data is Map<String, dynamic>) {
         return response.data as Map<String, dynamic>;
